@@ -11,5 +11,9 @@ public static class DependencyInjectionHelper
     {
         services.AddScoped<IApplicationUserService, ApplicationUserService>();
         services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+        services.AddScoped<IIncomeGroupRepository, IncomeGroupRepository>();
+        services.AddScoped<IIncomeGroupService, IncomeGroupService>();
+        services.AddScoped<IExpenseGroupRepository, ExpenseGroupRepository>();
+        services.AddScoped<IExpenseGroupService, ExpenseGroupService>();
     }
 }

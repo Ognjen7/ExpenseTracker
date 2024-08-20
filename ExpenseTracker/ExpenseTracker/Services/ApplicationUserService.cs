@@ -52,6 +52,8 @@ public class ApplicationUserService : IApplicationUserService
     public async Task<IEnumerable<ApplicationUserDTO>> GetAllUsersAsync()
     {
         var users = await _userManager.Users
+            .Include(u => u.IncomeGroups)
+            .Include(u => u.ExpenseGroups)
             .ToListAsync();
         return _mapper.Map<IEnumerable<ApplicationUserDTO>>(users);
     }
