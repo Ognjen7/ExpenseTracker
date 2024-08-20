@@ -8,6 +8,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<IncomeGroup> IncomeGroups { get; set; }
     public DbSet<ExpenseGroup> ExpenseGroups { get; set; }
+    public DbSet<Income> Incomes { get; set; }
+    public DbSet<Expense> Expenses { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext>options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
