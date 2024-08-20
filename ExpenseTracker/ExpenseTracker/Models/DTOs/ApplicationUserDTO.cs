@@ -7,5 +7,7 @@
         public string? ApplicationUserEmail { get; set; }
         public ICollection<IncomeGroupDTO>? IncomeGroups { get; set; }
         public ICollection<ExpenseGroupDTO>? ExpenseGroups { get; set; }
+        public ICollection<IncomeDTO>? Incomes { get; set; }
+        public ICollection<ExpenseDTO>? Expenses { get; set; }
     }
 }

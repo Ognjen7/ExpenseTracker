@@ -15,5 +15,6 @@ namespace ExpenseTracker.Models.Entities
 
         public string? ApplicationUserId { get; set; }
         public ApplicationUser? ApplicationUser { get; set; }
+        public ICollection<Income>? Incomes { get; set; }
     }
 }

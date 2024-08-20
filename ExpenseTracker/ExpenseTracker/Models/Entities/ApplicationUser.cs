@@ -6,5 +6,7 @@ namespace ExpenseTracker.Models.Entities
     {
         public ICollection<IncomeGroup>? IncomeGroups { get; set; }
         public ICollection<ExpenseGroup>? ExpenseGroups { get; set; }
+        public ICollection<Income>? Incomes { get; set; }
+        public ICollection<Expense>? Expenses { get; set; }
     }
 }
