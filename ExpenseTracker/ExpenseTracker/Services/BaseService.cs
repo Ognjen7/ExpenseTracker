@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ExpenseTracker.Models.Queries;
 using ExpenseTracker.Repository.Interfaces;
 using ExpenseTracker.Services.Interfaces;
 
@@ -43,5 +44,11 @@ public class BaseService<TEntity, TDto> : IBaseService<TDto, int>
     public async Task DeleteAsync(int id)
     {
         await _repository.DeleteAsync(id);
+    }
+
+    public async Task<IEnumerable<TDto>> QueryAsync(TransactionQuery query)
+    {
+        var entities = await _repository.QueryAsync(query);
+        return _mapper.Map<IEnumerable<TDto>>(entities);
     }
 }

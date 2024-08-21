@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Models.DTOs;
+using ExpenseTracker.Models.Queries;
 using ExpenseTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,13 @@ public class ExpensesController : ControllerBase
     public ExpensesController(IExpenseService service)
     {
         _expenseService = service;
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ExpenseDTO>>> Query([FromQuery] TransactionQuery query)
+    {
+        var result = await _expenseService.QueryAsync(query);
+        return Ok(result);
     }
 
     [HttpGet("{id}")]

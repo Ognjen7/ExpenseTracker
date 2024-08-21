@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Models.DTOs;
+using ExpenseTracker.Models.Queries;
 using ExpenseTracker.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,13 @@ namespace ExpenseTracker.Controllers
         public IncomesController(IIncomeService service)
         {
             _incomeService = service;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<IncomeDTO>>> Query([FromQuery] TransactionQuery query)
+        {
+            var result = await _incomeService.QueryAsync(query);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]

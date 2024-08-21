@@ -1,5 +1,6 @@
 ﻿using ExpenseTracker.Models;
 using ExpenseTracker.Models.Entities;
+using ExpenseTracker.Models.Queries;
 using ExpenseTracker.Repository.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -49,5 +50,10 @@ public class ApplicationUserRepository : IApplicationUserRepository
     public Task DeleteAsync(int id)
     {
         throw new System.NotImplementedException();
+    }
+
+    public Task<IEnumerable<ApplicationUser>> QueryAsync(TransactionQuery query)
+    {
+        throw new NotImplementedException();
     }
 }
