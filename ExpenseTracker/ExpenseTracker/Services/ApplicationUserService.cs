@@ -56,6 +56,8 @@ public class ApplicationUserService : IApplicationUserService
             .Include(u => u.ExpenseGroups)
             .Include(u => u.Incomes)
             .Include(u => u.Expenses)
+            .Include(u => u.ScheduledIncomes)
+            .Include(u => u.ScheduledExpenses)
             .ToListAsync();
         return _mapper.Map<IEnumerable<ApplicationUserDTO>>(users);
     }
@@ -63,6 +65,12 @@ public class ApplicationUserService : IApplicationUserService
     public async Task<ApplicationUserDTO> GetUserByIdAsync(string userId)
     {
         var user = await _userManager.Users
+            .Include(u => u.IncomeGroups)
+            .Include(u => u.ExpenseGroups)
+            .Include(u => u.Incomes)
+            .Include(u => u.Expenses)
+            .Include(u => u.ScheduledIncomes)
+            .Include(u => u.ScheduledExpenses)
             .FirstOrDefaultAsync(u => u.Id == userId);
         return _mapper.Map<ApplicationUserDTO>(user);
     }

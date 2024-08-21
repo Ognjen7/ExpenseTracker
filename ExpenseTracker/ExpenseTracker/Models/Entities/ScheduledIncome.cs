@@ -18,6 +18,8 @@ namespace ExpenseTracker.Models.Entities
         [Required]
         public DateTime? ScheduledIncomeDate { get; set; }
 
+        public bool IsRecurring { get; set; }
+
         public string? ApplicationUserId { get; set; }
         public int IncomeGroupId { get; set; }
     }

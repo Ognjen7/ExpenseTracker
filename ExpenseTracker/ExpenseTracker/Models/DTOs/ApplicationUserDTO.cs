@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models.DTOs
+﻿using ExpenseTracker.Models.Entities;
+
+namespace ExpenseTracker.Models.DTOs
 {
     public class ApplicationUserDTO
     {
@@ -9,5 +11,7 @@
         public ICollection<ExpenseGroupDTO>? ExpenseGroups { get; set; }
         public ICollection<IncomeDTO>? Incomes { get; set; }
         public ICollection<ExpenseDTO>? Expenses { get; set; }
+        public ICollection<ScheduledIncome>? ScheduledIncomes { get; set; }
+        public ICollection<ScheduledExpense>? ScheduledExpenses { get; set; }
     }
 }

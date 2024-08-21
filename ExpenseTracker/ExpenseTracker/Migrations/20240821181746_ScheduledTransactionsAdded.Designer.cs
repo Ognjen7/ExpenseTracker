@@ -4,6 +4,7 @@ using ExpenseTracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTracker.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240821181746_ScheduledTransactionsAdded")]
+    partial class ScheduledTransactionsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -237,13 +239,10 @@ namespace ExpenseTracker.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduledExpenseId"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ExpenseGroupId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsRecurring")
-                        .HasColumnType("bit");
 
                     b.Property<double?>("ScheduledExpenseAmount")
                         .IsRequired()
@@ -263,8 +262,6 @@ namespace ExpenseTracker.Migrations
 
                     b.HasKey("ScheduledExpenseId");
 
-                    b.HasIndex("ApplicationUserId");
-
                     b.ToTable("ScheduledExpenses");
                 });
 
@@ -277,12 +274,12 @@ namespace ExpenseTracker.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScheduledIncomeId"), 1L, 1);
 
                     b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("IncomeGroupId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsRecurring")
+                    b.Property<bool?>("IsRecurring")
                         .HasColumnType("bit");
 
                     b.Property<double?>("ScheduledIncomeAmount")
@@ -302,8 +299,6 @@ namespace ExpenseTracker.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ScheduledIncomeId");
-
-                    b.HasIndex("ApplicationUserId");
 
                     b.ToTable("ScheduledIncomes");
                 });
@@ -495,20 +490,6 @@ namespace ExpenseTracker.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("ExpenseTracker.Models.Entities.ScheduledExpense", b =>
-                {
-                    b.HasOne("ExpenseTracker.Models.Entities.ApplicationUser", null)
-                        .WithMany("ScheduledExpenses")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
-            modelBuilder.Entity("ExpenseTracker.Models.Entities.ScheduledIncome", b =>
-                {
-                    b.HasOne("ExpenseTracker.Models.Entities.ApplicationUser", null)
-                        .WithMany("ScheduledIncomes")
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -569,10 +550,6 @@ namespace ExpenseTracker.Migrations
                     b.Navigation("IncomeGroups");
 
                     b.Navigation("Incomes");
-
-                    b.Navigation("ScheduledExpenses");
-
-                    b.Navigation("ScheduledIncomes");
                 });
 
             modelBuilder.Entity("ExpenseTracker.Models.Entities.IncomeGroup", b =>

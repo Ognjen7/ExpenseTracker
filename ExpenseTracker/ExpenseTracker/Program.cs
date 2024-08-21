@@ -1,5 +1,6 @@
 using ExpenseTracker.Helpers;
 using ExpenseTracker.Models;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,11 @@ builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.ConfigureAuthorization();
+
+builder.Services.AddHangfire(config =>
+    config.UseSqlServerStorage(builder.Configuration.GetConnectionString("AppConnectionString")));
+
+builder.Services.AddHangfireServer();
 
 builder.Services.AddServices();
 
@@ -34,5 +40,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseHangfireServer();
+
+app.UseHangfireDashboard();
 
 app.Run();

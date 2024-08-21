@@ -7,6 +7,7 @@
         public string? ScheduledExpenseDescription { get; set; }
         public double? ScheduledExpenseAmount { get; set; }
         public DateTime? ScheduledExpenseDate { get; set; }
+        public bool IsRecurring { get; set; }
         public string? ApplicationUserId { get; set; }
         public int ExpenseGroupId { get; set; }
     }

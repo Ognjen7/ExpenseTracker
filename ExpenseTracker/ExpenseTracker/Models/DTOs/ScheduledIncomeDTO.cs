@@ -7,6 +7,7 @@
         public string? ScheduledIncomeDescription { get; set; }
         public double? ScheduledIncomeAmount { get; set; }
         public DateTime? ScheduledIncomeDate { get; set; }
+        public bool IsRecurring { get; set; }
         public string? ApplicationUserId { get; set; }
         public int IncomeGroupId { get; set; }
     }

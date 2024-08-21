@@ -19,5 +19,10 @@ public static class DependencyInjectionHelper
         services.AddScoped<IIncomeService, IncomeService>();
         services.AddScoped<IExpenseRepository, ExpenseRepository>();
         services.AddScoped<IExpenseService, ExpenseService>();
+        services.AddScoped<IScheduledIncomeRepository, ScheduledIncomeRepository>();
+        services.AddScoped<IScheduledIncomeService, ScheduledIncomeService>();
+        services.AddScoped<IScheduledExpenseRepository, ScheduledExpenseRepository>();
+        services.AddScoped<IScheduledExpenseService, ScheduledExpenseService>();
+
     }
 }

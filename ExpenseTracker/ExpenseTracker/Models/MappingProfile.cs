@@ -28,5 +28,11 @@ public class MappingProfile : Profile
         CreateMap<Expense, ExpenseDTO>()
             .ForMember(dest => dest.ApplicationUserId, opt => opt.MapFrom(src => src.ApplicationUserId))
             .ReverseMap();
+        CreateMap<ScheduledExpense, ScheduledExpenseDTO>()
+            .ForMember(dest => dest.ApplicationUserId, opt => opt.MapFrom(src => src.ApplicationUserId))
+            .ReverseMap();
+        CreateMap<ScheduledIncome, ScheduledIncomeDTO>()
+            .ForMember(dest => dest.ApplicationUserId, opt => opt.MapFrom(src => src.ApplicationUserId))
+            .ReverseMap();
     }
 }
