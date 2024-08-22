@@ -1,6 +1,8 @@
 using ExpenseTracker.Helpers;
 using ExpenseTracker.Models;
+using ExpenseTracker.Services;
 using Hangfire;
+using PdfSharp.Charting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services.AddHangfire(config =>
     config.UseSqlServerStorage(builder.Configuration.GetConnectionString("AppConnectionString")));
 
 builder.Services.AddHangfireServer();
+
+builder.Services.AddScoped<BudgetCapNotificationService>();
 
 builder.Services.AddServices();
 
@@ -44,5 +48,10 @@ app.MapControllers();
 app.UseHangfireServer();
 
 app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<BudgetCapNotificationService>(
+    "check-and-notify-budget-cap",
+    service => service.CheckAndNotifyBudgetCapExceededAsync(),
+    Cron.Daily);
 
 app.Run();

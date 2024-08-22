@@ -32,4 +32,13 @@ public class ExpenseService : BaseService<Expense, ExpenseDTO>, IExpenseService
         var oneMonthAgo = DateTime.Now.AddMonths(-1);
         return await _expenseRepository.GetExpensesByDateRange(userId, oneMonthAgo, DateTime.Now);
     }
+
+    public async Task<double?> GetTotalExpensesForGroupAsync(int expenseGroupId)
+    {
+        var expenses = await _expenseRepository.GetExpensesByGroupIdAsync(expenseGroupId);
+
+        var totalAmount = expenses.Sum(expense => expense.ExpenseAmount);
+
+        return totalAmount;
+    }
 }

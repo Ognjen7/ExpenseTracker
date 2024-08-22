@@ -30,4 +30,17 @@ public class ExpenseRepository : BaseRepository<Expense>, IExpenseRepository
             })
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Expense>> GetExpensesByGroupIdAsync(int expenseGroupId)
+    {
+        return await _context.Expenses
+            .Where(expense => expense.ExpenseGroupId == expenseGroupId)
+            .ToListAsync();
+    }
+
+    public async Task<double?> GetTotalExpensesForGroupAsync(int expenseGroupId)
+    {
+        var expenses = await GetExpensesByGroupIdAsync(expenseGroupId);
+        return expenses.Sum(expense => expense.ExpenseAmount);
+    }
 }

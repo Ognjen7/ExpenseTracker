@@ -7,5 +7,6 @@ namespace ExpenseTracker.Services.Interfaces
         Task<IEnumerable<ExpenseDTO>> GetByUserIdAsync(string userId);
         Task<IEnumerable<ExpenseDTO>> GetExpensesForLastWeek(string userId);
         Task<IEnumerable<ExpenseDTO>> GetExpensesForLastMonth(string userId);
+        Task<double?> GetTotalExpensesForGroupAsync(int expenseGroupId);
     }
 }
