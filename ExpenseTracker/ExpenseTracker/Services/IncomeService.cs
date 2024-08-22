@@ -21,4 +21,16 @@ public class IncomeService : BaseService<Income, IncomeDTO>, IIncomeService
         var incomes = await _incomeRepository.GetByUserIdAsync(userId);
         return _mapper.Map<IEnumerable<IncomeDTO>>(incomes);
     }
+
+    public async Task<IEnumerable<IncomeDTO>> GetIncomesForLastWeek(string userId)
+    {
+        var oneWeekAgo = DateTime.Now.AddDays(-7);
+        return await _incomeRepository.GetIncomesByDateRange(userId, oneWeekAgo, DateTime.Now);
+    }
+
+    public async Task<IEnumerable<IncomeDTO>> GetIncomesForLastMonth(string userId)
+    {
+        var oneMonthAgo = DateTime.Now.AddMonths(-1);
+        return await _incomeRepository.GetIncomesByDateRange(userId, oneMonthAgo, DateTime.Now);
+    }
 }

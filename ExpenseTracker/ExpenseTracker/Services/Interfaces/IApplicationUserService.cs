@@ -13,5 +13,8 @@ namespace ExpenseTracker.Services.Interfaces
         Task UpdateUserAsync(ApplicationUser user);
         Task<bool> DeleteUserAsync(string userId);
         Task<TokenDTO> GenerateJwtTokenAsync(ApplicationUser user);
+        Task AddClaimAsync(ApplicationUser user, string claimType, string claimValue);
+        Task RemoveClaimAsync(ApplicationUser user, string claimType);
+        Task<IEnumerable<ApplicationUser>> GetPremiumUsersAsync();
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ExpenseTracker.Controllers
 {
@@ -44,6 +45,44 @@ namespace ExpenseTracker.Controllers
 
             var token = await _applicationUserService.GenerateJwtTokenAsync(user);
             return Ok(new { Token = token });
+        }
+
+        [Authorize]
+        [HttpPost("upgradeToPremium")]
+        public async Task<IActionResult> UpgradeToPremium()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            await _applicationUserService.AddClaimAsync(user, "Subscription", "Premium");
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            var tokenDto = await _applicationUserService.GenerateJwtTokenAsync(user);
+
+            return Ok(tokenDto);
+        }
+
+        [Authorize]
+        [HttpPost("downgradeFromPremium")]
+        public async Task<IActionResult> DowngradeFromPremium()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            await _applicationUserService.RemoveClaimAsync(user, "Subscription");
+            await _userManager.UpdateSecurityStampAsync(user);
+
+            var tokenDto = await _applicationUserService.GenerateJwtTokenAsync(user);
+
+            return Ok(tokenDto);
         }
 
         [Authorize]

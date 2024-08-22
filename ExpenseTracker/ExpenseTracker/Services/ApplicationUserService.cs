@@ -130,4 +130,36 @@ public class ApplicationUserService : IApplicationUserService
             Expires = token.ValidTo
         };
     }
+
+    public async Task AddClaimAsync(ApplicationUser user, string claimType, string claimValue)
+    {
+        var claim = new Claim(claimType, claimValue);
+        await _userManager.AddClaimAsync(user, claim);
+    }
+
+    public async Task RemoveClaimAsync(ApplicationUser user, string claimType)
+    {
+        var claims = await _userManager.GetClaimsAsync(user);
+        var claim = claims.FirstOrDefault(c => c.Type == claimType);
+        if (claim != null)
+        {
+            await _userManager.RemoveClaimAsync(user, claim);
+        }
+    }
+
+    public async Task<IEnumerable<ApplicationUser>> GetPremiumUsersAsync()
+    {
+        var users = await _userManager.Users.ToListAsync();
+        var premiumUsers = new List<ApplicationUser>();
+
+        foreach (var user in users)
+        {
+            var claims = await _userManager.GetClaimsAsync(user);
+            if (claims.Any(c => c.Type == "Subscription" && c.Value == "Premium"))
+            {
+                premiumUsers.Add(user);
+            }
+        }
+        return premiumUsers;
+    }
 }

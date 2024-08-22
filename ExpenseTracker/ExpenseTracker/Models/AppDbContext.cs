@@ -12,6 +12,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Expense> Expenses { get; set; }
     public DbSet<ScheduledExpense> ScheduledExpenses { get; set; }
     public DbSet<ScheduledIncome> ScheduledIncomes { get; set; }
+    public DbSet<Reminder> Reminders { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext>options) : base(options) { }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

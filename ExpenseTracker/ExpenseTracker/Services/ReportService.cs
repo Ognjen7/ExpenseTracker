@@ -16,6 +16,7 @@ public class ReportService : IReportService
             var fontHeader = new XFont("Arial", 16);
             var fontSubHeader = new XFont("Arial", 14);
             var fontContent = new XFont("Arial", 12);
+            var fontTotal = new XFont("Arial", 12);
 
             // Draw header
             gfx.DrawString("Income Report", fontHeader, XBrushes.Black,
@@ -41,6 +42,8 @@ public class ReportService : IReportService
 
             gfx.DrawLine(XPens.Black, 50, yPosition - 10, page.Width - 50, yPosition - 10);
 
+            double totalAmount = 0;
+
             foreach (var income in incomes)
             {
                 // Draw content
@@ -57,11 +60,22 @@ public class ReportService : IReportService
                     new XRect(450, yPosition, 100, 0),
                     XStringFormats.TopLeft);
 
+                totalAmount += (double)income.IncomeAmount;
+
                 yPosition += 30; // Space between entries
 
                 // Draw line separator
                 gfx.DrawLine(XPens.LightGray, 50, yPosition - 10, page.Width - 50, yPosition - 10);
             }
+
+            // Draw total
+            yPosition += 10;
+            gfx.DrawString("Total", fontTotal, XBrushes.Black,
+                new XRect(50, yPosition, 100, 0),
+                XStringFormats.TopLeft);
+            gfx.DrawString(totalAmount.ToString("C"), fontTotal, XBrushes.Black,
+                new XRect(350, yPosition, 100, 0),
+                XStringFormats.TopLeft);
 
             // Save the document to a memory stream
             using (var ms = new MemoryStream())
@@ -72,8 +86,6 @@ public class ReportService : IReportService
         }
     }
 
-
-
     public byte[] GenerateExpensePdfReport(IEnumerable<ExpenseDTO> expenses)
     {
         using (var document = new PdfDocument())
@@ -83,6 +95,7 @@ public class ReportService : IReportService
             var fontHeader = new XFont("Arial", 16);
             var fontSubHeader = new XFont("Arial", 14);
             var fontContent = new XFont("Arial", 12);
+            var fontTotal = new XFont("Arial", 12);
 
             // Draw header
             gfx.DrawString("Expense Report", fontHeader, XBrushes.Black,
@@ -108,7 +121,7 @@ public class ReportService : IReportService
 
             gfx.DrawLine(XPens.Black, 50, yPosition - 10, page.Width - 50, yPosition - 10);
 
-            yPosition += 10;
+            double totalAmount = 0;
 
             foreach (var expense in expenses)
             {
@@ -126,11 +139,22 @@ public class ReportService : IReportService
                     new XRect(450, yPosition, 100, 0),
                     XStringFormats.TopLeft);
 
+                totalAmount += (double)expense.ExpenseAmount;
+
                 yPosition += 30; // Space between entries
 
                 // Draw line separator
                 gfx.DrawLine(XPens.LightGray, 50, yPosition - 10, page.Width - 50, yPosition - 10);
             }
+
+            // Draw total
+            yPosition += 10;
+            gfx.DrawString("Total", fontTotal, XBrushes.Black,
+                new XRect(50, yPosition, 100, 0),
+                XStringFormats.TopLeft);
+            gfx.DrawString(totalAmount.ToString("C"), fontTotal, XBrushes.Black,
+                new XRect(350, yPosition, 100, 0),
+                XStringFormats.TopLeft);
 
             // Save the document to a memory stream
             using (var ms = new MemoryStream())
@@ -140,4 +164,5 @@ public class ReportService : IReportService
             }
         }
     }
+
 }

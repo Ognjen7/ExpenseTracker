@@ -25,6 +25,8 @@ public static class DependencyInjectionHelper
         services.AddScoped<IScheduledExpenseService, ScheduledExpenseService>();
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IReportService, ReportService>();
+        services.AddScoped<IReminderRepository, ReminderRepository>();
+        services.AddScoped<IReminderService, ReminderService>();
 
     }
 }
