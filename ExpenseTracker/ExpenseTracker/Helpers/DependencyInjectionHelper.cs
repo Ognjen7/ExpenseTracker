@@ -23,6 +23,8 @@ public static class DependencyInjectionHelper
         services.AddScoped<IScheduledIncomeService, ScheduledIncomeService>();
         services.AddScoped<IScheduledExpenseRepository, ScheduledExpenseRepository>();
         services.AddScoped<IScheduledExpenseService, ScheduledExpenseService>();
+        services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IReportService, ReportService>();
 
     }
 }

@@ -14,10 +14,45 @@ namespace ExpenseTracker.Controllers;
 public class ExpensesController : ControllerBase
 {
     private readonly IExpenseService _expenseService;
+    private readonly IEmailService _emailService;
+    private readonly IReportService _pdfReportService;
 
-    public ExpensesController(IExpenseService service)
+    public ExpensesController(IExpenseService service, IEmailService emailService, IReportService pdfReportService)
     {
         _expenseService = service;
+        _emailService = emailService;
+        _pdfReportService = pdfReportService;
+    }
+
+    [HttpGet("email-report")]
+    public async Task<IActionResult> SendIncomeReport()
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return BadRequest("User email not found.");
+        }
+
+        var expenses = await _expenseService.GetAllAsync();
+        var pdfReport = _pdfReportService.GenerateExpensePdfReport(expenses);
+
+        await _emailService.SendEmailAsync(userEmail, "Your Income Report", "Please find attached your income report.", pdfReport, "IncomeReport.pdf");
+
+        return Ok("Email sent successfully.");
+    }
+
+    [HttpGet("generateReport")]
+    public async Task<IActionResult> GenerateReport(string userId)
+    {
+        var expenses = await _expenseService.GetByUserIdAsync(userId);
+        if (expenses == null)
+        {
+            return NotFound();
+        }
+
+        byte[] pdfBytes = _pdfReportService.GenerateExpensePdfReport(expenses);
+
+        return File(pdfBytes, "application/pdf", "ExpenseReport.pdf");
     }
 
     [HttpGet]
